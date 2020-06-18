@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Commander.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -29,8 +30,12 @@ namespace Commander
         {
             services.AddDbContext<CommanderContext>(opt => opt.UseSqlServer(
                 Configuration.GetConnectionString("CommanderConnection")));
-            services.AddControllers();
-            services.AddScoped<ICommanderRepo, SqlCommanderRepo> (); ///dependency injection for ICommanderRepo
+
+            services.AddControllers(); ///Controller service
+
+            services.AddScoped<ICommanderRepo, SqlCommanderRepo> (); ///Adding Dependency
+
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

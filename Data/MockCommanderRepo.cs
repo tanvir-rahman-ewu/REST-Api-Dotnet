@@ -5,6 +5,11 @@ namespace Commander.Data
 {
     public class MockCommanderRepo : ICommanderRepo
     {
+        public void CreateCommand(Command cmd)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public IEnumerable<Command> GetAllCommands()
         {
             return new List<Command>()
@@ -18,6 +23,11 @@ namespace Commander.Data
         public Command GetCommandById(int id)
         {
             return new Command{ Id = 10, HowTo = "amnei", Line = "sdad", Platform = "C++"};
+        }
+
+        public bool SaveChanges()
+        {
+            throw new System.NotImplementedException();
         }
     }
 }
