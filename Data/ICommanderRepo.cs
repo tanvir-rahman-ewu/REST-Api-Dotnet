@@ -9,6 +9,12 @@ namespace Commander.Data
         bool SaveChanges();
         IEnumerable<Command> GetAllCommands(); ///for getting all commands
         Command GetCommandById(int id); /// for getting one command selected by Id
-        void CreateCommand(Command cmd);
+        void CreateCommand(Command cmd); /// posting data
+
+        void UpdateCommand(Command cmd);
+
+        void DeleteCommand(Command cmd);
+
+
    }
 }

@@ -10,6 +10,9 @@ namespace Commander.Profiles
         {
             CreateMap<Command, CommandReadDto>();   
             CreateMap<CommandCreateDto, Command>(); 
+            CreateMap<CommandUpdateeDto, Command>();
+            CreateMap<Command, CommandUpdateeDto>();
+
         }
     }
 }

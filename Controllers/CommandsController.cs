@@ -3,6 +3,7 @@ using AutoMapper;
 using Commander.Data;
 using Commander.Dtos;
 using Commander.Models;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Commander.Controllers
@@ -55,6 +56,71 @@ namespace Commander.Controllers
 
             return CreatedAtRoute(nameof(GetCommandById), new { Id = commandReadDto.Id}, commandReadDto);
             //return Ok(commandReadDto);
+        }
+
+        ///put URL : api/commands/{id}
+        [HttpPut("{id}")]
+        public ActionResult UpdateCommand(int id, CommandUpdateeDto commandUpdateDto)
+        {
+            var commandModelFromRepo = _reposiotry.GetCommandById(id);
+
+            if(commandModelFromRepo == null)
+            {
+                return NotFound();
+            }
+
+            _mapper.Map(commandUpdateDto, commandModelFromRepo);
+
+            _reposiotry.UpdateCommand(commandModelFromRepo);
+
+            _reposiotry.SaveChanges();
+
+            return NoContent();
+        }
+
+        /// patch URL : api/commands/{id}
+        [HttpPatch("{id}")]
+        public ActionResult PartialCommandUpdate(int id, JsonPatchDocument<CommandUpdateeDto> pathcDto)
+        {
+            var commandModelFromRepo = _reposiotry.GetCommandById(id);
+            
+            if(commandModelFromRepo == null)
+            {
+                return NotFound();
+            }
+            var commandToPatch = _mapper.Map<CommandUpdateeDto>(commandModelFromRepo);
+
+            pathcDto.ApplyTo(commandToPatch, ModelState);
+
+            if(!TryValidateModel(commandToPatch))
+            {
+                return ValidationProblem(ModelState);
+            }
+
+            _mapper.Map(commandToPatch, commandModelFromRepo);
+
+            _reposiotry.UpdateCommand(commandModelFromRepo);
+
+            _reposiotry.SaveChanges();
+
+            return NoContent();
+        }
+
+        ///Delete URL : api/commands/{id}
+        [HttpDelete("{id}")]
+        public ActionResult DeleteCommand(int id)
+        {
+            var commandModelFromRepo = _reposiotry.GetCommandById(id);
+            
+            if(commandModelFromRepo == null)
+            {
+                return NotFound();
+            }
+
+            _reposiotry.DeleteCommand(commandModelFromRepo);
+            _reposiotry.SaveChanges();
+
+            return NoContent();
         }
     }
 }

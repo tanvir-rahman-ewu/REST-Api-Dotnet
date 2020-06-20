@@ -13,7 +13,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-
+using Newtonsoft.Json.Serialization;
 namespace Commander
 {
     public class Startup
@@ -31,7 +31,9 @@ namespace Commander
             services.AddDbContext<CommanderContext>(opt => opt.UseSqlServer(
                 Configuration.GetConnectionString("CommanderConnection")));
 
-            services.AddControllers(); ///Controller service
+            services.AddControllers().AddNewtonsoftJson(s =>{
+                s.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+            }); ///Controller service 
 
             services.AddScoped<ICommanderRepo, SqlCommanderRepo> (); ///Adding Dependency
 

@@ -2,12 +2,12 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Commander.Dtos
 {
-    public class CommandCreateDto
+    public class CommandUpdateeDto
     {
         [Required]
         [MaxLength(250)]
         public string HowTo { get; set; }
-         [Required]
+        [Required]
         [MaxLength(250)]
         public string Line { get; set; }
         
